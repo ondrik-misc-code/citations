@@ -1,4 +1,4 @@
-<h1>{{ title }}</h1>
+<h1>{{ publication.title }}</h1>
 
 {% if citations %}
   <ul>
@@ -9,3 +9,6 @@
 {% else %}
     <p>No citations.</p>
 {% endif %}
+
+<br />
+<a href="{% url 'cites:index' %}">Index</a>

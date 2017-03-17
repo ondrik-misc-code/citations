@@ -9,3 +9,15 @@
 {% else %}
     <p>No publications.</p>
 {% endif %}
+
+<h1>Adding publications</h1>
+
+{% if error_message %}<p><strong><font color="red">{{ error_message }}</font></strong></p>{% endif %}
+
+<form action="{% url 'cites:add_pub' %}" method="post">
+{% csrf_token %}
+  <input type="text" name="pub_title" size="200"/><br />
+  <input type="checkbox" name="pub_my" checked="true" />
+  <label for="pub_my">My publication?</label><br />
+<input type="submit" value="Add" />
+</form>
