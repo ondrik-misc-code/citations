@@ -1,8 +1,6 @@
 <center>
-<h1>Citations</h1>
+<h1>Manage publications</h1>
 </center>
-<a href="{% url 'cites:manage_pubs' %}">Manage publications</a><br/>
-<a href="{% url 'cites:cit_list_year' %}">List of citations</a><br/>
 
 {% if publications %}
   <table>
@@ -21,6 +19,7 @@
     <p>No publications.</p>
 {% endif %}
 
+<!--
 <h1>Adding publications</h1>
 
 {% if error_message %}<p><strong><font color="red">{{ error_message }}</font></strong></p>{% endif %}
@@ -32,3 +31,7 @@
   <label for="pub_my">My publication?</label><br />
 <input type="submit" value="Add" />
 </form>
+-->
+
+<br />
+<a href="{% url 'cites:index' %}">Index</a>
