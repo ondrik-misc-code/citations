@@ -6,7 +6,7 @@ from django.utils import timezone
 # Create your models here.
 
 #########################################
-class Citing(models.Model):
+class Citation(models.Model):
     """A work citing the author's publication."""
     title = models.CharField(max_length=1000)
     cited_date = models.DateTimeField('date of citation', default=timezone.now)
@@ -16,6 +16,12 @@ class Citing(models.Model):
         return self.title
 
 #########################################
+class Author(models.Model):
+    """An author."""
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+
+#########################################
 class ValidPubManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(deleted=False)
@@ -23,13 +29,15 @@ class ValidPubManager(models.Manager):
 #########################################
 class Publication(models.Model):
     """An author's publication."""
+    abbrev = models.CharField(max_length=100, default="")
     title = models.CharField(max_length=1000)
+    citations = models.ManyToManyField(Citation, through='PublicationCitation')
+    authors = models.ManyToManyField(Author, through='PublicationAuthor')
+    deleted = models.BooleanField(default=False)
+
     pub_date = models.DateTimeField('date published', default=timezone.now)
     created_date = models.DateTimeField('date created', default=timezone.now)
     last_modified_date = models.DateTimeField('date last modified', default=timezone.now)
-    citations = models.ManyToManyField(Citing, through='Citation')
-    deleted = models.BooleanField(default=False)
-    abbrev = models.CharField(max_length=100, default="")
 
     # managers for accessing the collection
     objects = ValidPubManager()
@@ -39,7 +47,13 @@ class Publication(models.Model):
         return self.abbrev + ": " + self.title
 
 #########################################
-class Citation(models.Model):
+class PublicationCitation(models.Model):
     """Relation table binding publication with its citations."""
     publication = models.ForeignKey(Publication, on_delete=models.CASCADE)
-    citing = models.ForeignKey(Citing, on_delete=models.CASCADE)
+    citation = models.ForeignKey(Citation, on_delete=models.CASCADE)
+
+#########################################
+class PublicationAuthor(models.Model):
+    """Relation table binding publication with its authors."""
+    publication = models.ForeignKey(Publication, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)

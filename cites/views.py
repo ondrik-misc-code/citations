@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic
 
-from .models import Publication, Citing, Citation
+from .models import Citation, Publication, PublicationCitation
 
 # Create your views here.
 # def index(request):
@@ -107,7 +107,7 @@ def add_cit(request, pk):
             'publications': Publication.objects.order_by('-pub_date')
         })
 
-    newCit = Citing()
+    newCit = Citation()
     newCit.title = title
     newCit.cited_date = datetime.date(year, 6, 6)
     newCit.save()
@@ -123,33 +123,33 @@ def add_cit(request, pk):
 
     # add all bindings
     for x in all_pubs:
-        binding = Citation(publication=x, citing=newCit)
+        binding = PublicationCitation(publication=x, citation=newCit)
         binding.save()
 
     return redirect(reverse('cites:pub_detail', args=({pk})))
 
 ######################################
 def del_cit(request, pub_pk, cit_pk):
-    cit = get_object_or_404(Citation, publication=pub_pk, citing=cit_pk)
+    cit = get_object_or_404(PublicationCitation, publication=pub_pk, citation=cit_pk)
     cit.delete()
     return redirect(reverse('cites:pub_detail', args=({pub_pk})))
 
 
 ######################################
 def cit_list_year(request):
-    citations = Citation.objects.all()
+    citations = PublicationCitation.objects.all()
 
     cit_map = { }
     totals = { }
     for cit in citations:
-        year = cit.citing.cited_date.year
+        year = cit.citation.cited_date.year
         if not year in cit_map:
             cit_map[year] = { }
 
         if not cit.publication in cit_map[year]:
             cit_map[year][cit.publication] = []
 
-        cit_map[year][cit.publication].append(cit.citing)
+        cit_map[year][cit.publication].append(cit.citation)
 
         if not year in totals:
             totals[year] = 0
