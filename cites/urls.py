@@ -12,6 +12,8 @@ urlpatterns = [
     url(r'^add_pub/$', views.add_pub, name='add_pub'),
     # e.g.: /cites/pub/4/add_cit
     url(r'^pub/(?P<pk>[0-9]+)/add_cit/$', views.add_cit, name='add_cit'),
+    # e.g.: /cites/pub/4/del
+    url(r'^pub/(?P<pk>[0-9]+)/del/$', views.del_pub, name='del_pub'),
     # e.g.: /cites/pub/4/add_cit
     url(r'^pub/(?P<pub_pk>[0-9]+)/del_cit/(?P<cit_pk>[0-9]+)/$', views.del_cit, name='del_cit'),
     # e.g.: /cites/manage/

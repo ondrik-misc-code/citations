@@ -1,11 +1,17 @@
 body {
-  background-color: lightblue;
+	background-color: lightblue;
 }
 
 a {
-  color: green;
+	color: green;
 }
 
 a:visited {
-  color: blue;
+	color: blue;
+}
+
+.abbrev-title {
+	color: #0066FF;
+	font-family:arial;
+	font-size: 40px; 
 }

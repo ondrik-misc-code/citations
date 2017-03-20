@@ -31,7 +31,7 @@ class ManageView(generic.ListView):
 
     def get_queryset(self):
         """Return all publications."""
-        return Publication.objects.order_by('-pub_date')
+        return Publication.also_deleted_objects.order_by('-pub_date')
 
 ######################################
 def pub_detail(request, pk):
@@ -133,6 +133,22 @@ def del_cit(request, pub_pk, cit_pk):
     cit = get_object_or_404(PublicationCitation, publication=pub_pk, citation=cit_pk)
     cit.delete()
     return redirect(reverse('cites:pub_detail', args=({pub_pk})))
+
+
+######################################
+def del_pub(request, pk):
+    try:
+        pub = Publication.also_deleted_objects.get(pk=pk)
+    except Publication.DoesNotExist:
+        raise Http404("Publication does not exist")
+
+    if not pub.deleted:
+        pub.deleted = True
+    else:
+        pub.deleted = False
+
+    pub.save()
+    return redirect(reverse('cites:manage_pubs', ))
 
 
 ######################################

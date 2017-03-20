@@ -1,6 +1,6 @@
 {% include 'cites/header.html' %}
 
-<h1>{{ publication }}</h1>
+<h1><span class="abbrev-title">{{ publication.abbrev }}</span>: {{ publication.title }}</h1>
 
 {% if citations %}
   <table>
@@ -26,7 +26,7 @@
 {% if error_message %}<p><strong><font color="red">{{ error_message }}</font></strong></p>{% endif %}
 <form action="{% url 'cites:add_cit' publication.pk %}" method="post"> {% csrf_token %}
   <label for="cit_title">Title: <label />
-  <input type="text" name="cit_title" size="200"/><br />
+  <textarea name="cit_title" cols="50" rows="8"></textarea><br />
   <label for="cit_year">Year: <label />
   <input type="text" name="cit_year" size="8" value="2016"/><br />
 
@@ -42,7 +42,7 @@
       {% if pub != publication %}
         <tr>
           <td><input type="checkbox" name="also-pubs-checks[]" value="{{ pub.pk }}" /></td>
-          <td>{{pub.abbrev }}</td>
+          <td>{{ pub.abbrev }}</td>
           <td>{{ pub.title }}</td>
         </tr>
       {% endif %}

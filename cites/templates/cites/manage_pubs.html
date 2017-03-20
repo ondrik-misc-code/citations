@@ -8,12 +8,28 @@
   <table>
   <thead>
     <th>
+      Abbreviation
+    </th>
+    <th>
+      Deleted
+    </th>
+    <th>
       Title
     </th>
   </thead>
   {% for pub in publications %}
     <tr>
-      <td><a href="{% url 'cites:pub_detail' pub.id %}">{{ pub.title }}</a></td>
+      <td><a href="{% url 'cites:pub_detail' pub.pk %}">{{ pub.abbrev }}</a></td>
+      <td>
+        <a href="{% url 'cites:del_pub' pub.pk %}">
+          {% if pub.deleted %}
+            yes
+          {% else %}
+            no
+          {% endif %}
+        </a>
+      </td>
+      <td>{{ pub.title }}</td>
     </tr>
   {% endfor %}
   </table>
