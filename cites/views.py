@@ -134,7 +134,14 @@ def add_cit(request, pk):
 
     return redirect(reverse('cites:pub_detail', args=({pk})))
 
+######################################
+def del_cit(request, pub_pk, cit_pk):
+    cit = get_object_or_404(Citation, publication=pub_pk, citing=cit_pk)
+    cit.delete()
+    return redirect(reverse('cites:pub_detail', args=({pub_pk})))
 
+
+######################################
 def cit_list_year(request):
     citations = Citation.objects.all()
 

@@ -9,7 +9,7 @@
   {% for cit in citations %}
     <tr>
       <td>{{ cit.cited_date.year }}</td>
-      <td>{{ cit.title }}</td>
+      <td>{{ cit.title }}<a href="{% url 'cites:del_cit' publication.pk cit.pk %}">remove</a></td>
     </tr>
   {% endfor %}
   </table>
