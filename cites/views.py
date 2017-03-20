@@ -58,6 +58,15 @@ def pub_detail(request, pk):
 ######################################
 def add_pub(request):
     """Adds a new publication."""
+    abbrev = request.POST["pub_abbrev"]
+    abbrev = abbrev.strip()
+    if not abbrev:
+        return render(request, IndexView.template_name, {
+            'error_message': "The abbreviation is empty.",
+            # the following is horrible solution (copies functionality)
+            'publications': Publication.objects.order_by('-pub_date'),
+        })
+
     title = request.POST["pub_title"]
     title = title.strip()
     if not title:
@@ -75,6 +84,7 @@ def add_pub(request):
 
     newPub = Publication()
     newPub.title = title
+    newPub.abbrev = abbrev
     newPub.save()
 
     return redirect(reverse('cites:index'))
@@ -163,7 +173,7 @@ def cit_list_year(request):
         totals[year] += 1
 
     context = {
-        'cit_map': cit_map,
+        'cit_list': [(k, cit_map[k]) for k in sorted(cit_map, reverse=True)],
         'totals': totals,
     }
 

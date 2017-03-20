@@ -2,8 +2,8 @@
 <h1>List of citations</h1>
 </center>
 
-{% if cit_map %}
-  {% for year, pubs in cit_map.items %}
+{% if cit_list %}
+  {% for year, pubs in cit_list %}
     <h1>{{ year }}</h1>
     <ul>
       {% for pub,citlist in pubs.items %}

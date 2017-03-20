@@ -1,4 +1,4 @@
-<h1>{{ publication.title }}</h1>
+<h1>{{ publication }}</h1>
 
 {% if citations %}
   <table>
@@ -9,7 +9,7 @@
   {% for cit in citations %}
     <tr>
       <td>{{ cit.cited_date.year }}</td>
-      <td>{{ cit.title }}<a href="{% url 'cites:del_cit' publication.pk cit.pk %}">remove</a></td>
+      <td>{{ cit.title }}&nbsp;&nbsp;<a href="{% url 'cites:del_cit' publication.pk cit.pk %}">remove</a></td>
     </tr>
   {% endfor %}
   </table>
@@ -33,13 +33,18 @@
     {% for pub in publications %}
       {% if pub != publication %}
         <input type="checkbox" name="also-pubs-checks[]" value="{{ pub.pk }}" />
-        <label for="cb{{ forloop.counter }}">{{ pub.title }}</label><br />
+        <label for="cb{{ forloop.counter }}">{{ pub }}</label><br />
       {% endif %}
     {% endfor %}
   {% endif %}
 
+<br />
+<br />
+<br />
 <input type="submit" value="Add" />
 </form>
 
+<br />
+<br />
 <br />
 <a href="{% url 'cites:index' %}">Index</a>
