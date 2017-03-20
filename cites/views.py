@@ -33,23 +33,13 @@ class ManageView(generic.ListView):
         """Return all publications."""
         return Publication.objects.order_by('-pub_date')
 
-# ######################################
-# class PubDetailView(generic.DetailView):
-#     """Details of a publication including citations."""
-#     model = Publication
-#     template_name = 'cites/pub_detail.html'
-#
-#     def get_queryset(self):
-#         """Return all citations for the publication."""
-#         return Publication.objects.order_by('-pub_date')
-
 ######################################
 def pub_detail(request, pk):
     pub = get_object_or_404(Publication, pk=pk)
     # citations = pub.j
     context = {
         'publication': pub,
-        'citations': pub.citations.all(),
+        'citations': pub.citations.order_by('-cited_date'),
         'publications': Publication.objects.order_by('-pub_date')
     }
 
@@ -75,12 +65,6 @@ def add_pub(request):
             # the following is horrible solution (copies functionality)
             'publications': Publication.objects.order_by('-pub_date'),
         })
-
-    my_pub = request.POST["pub_my"]
-    if my_pub == "on":
-        my_pub = True
-    else:
-        my_pub = False
 
     newPub = Publication()
     newPub.title = title

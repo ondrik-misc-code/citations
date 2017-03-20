@@ -24,7 +24,6 @@ class ValidPubManager(models.Manager):
 class Publication(models.Model):
     """An author's publication."""
     title = models.CharField(max_length=1000)
-    is_my = models.BooleanField(default=True)
     pub_date = models.DateTimeField('date published', default=timezone.now)
     created_date = models.DateTimeField('date created', default=timezone.now)
     last_modified_date = models.DateTimeField('date last modified', default=timezone.now)

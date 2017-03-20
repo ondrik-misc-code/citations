@@ -32,12 +32,22 @@
 
   {% if publications %}
   Also citing:<br />
+  <table>
+  <thead>
+    <th>Cite?</th>
+    <th>Abbreviation</th>
+    <th>Title</th>
+  </thead>
     {% for pub in publications %}
       {% if pub != publication %}
-        <input type="checkbox" name="also-pubs-checks[]" value="{{ pub.pk }}" />
-        <label for="cb{{ forloop.counter }}">{{ pub }}</label><br />
+        <tr>
+          <td><input type="checkbox" name="also-pubs-checks[]" value="{{ pub.pk }}" /></td>
+          <td>{{pub.abbrev }}</td>
+          <td>{{ pub.title }}</td>
+        </tr>
       {% endif %}
     {% endfor %}
+  </table>
   {% endif %}
 
 <br />
