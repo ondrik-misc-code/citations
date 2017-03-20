@@ -1,3 +1,5 @@
+{% include 'cites/header.html' %}
+
 <h1>{{ publication }}</h1>
 
 {% if citations %}
@@ -48,3 +50,5 @@
 <br />
 <br />
 <a href="{% url 'cites:index' %}">Index</a>
+
+{% include 'cites/footer.html' %}
