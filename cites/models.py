@@ -30,13 +30,14 @@ class Publication(models.Model):
     last_modified_date = models.DateTimeField('date last modified', default=timezone.now)
     citations = models.ManyToManyField(Citing, through='Citation')
     deleted = models.BooleanField(default=False)
+    abbrev = models.CharField(max_length=100, default="")
 
     # managers for accessing the collection
     objects = ValidPubManager()
     also_deleted_objects = models.Manager()
 
     def __str__(self):
-        return self.title
+        return self.abbrev + ": " + self.title
 
 #########################################
 class Citation(models.Model):
