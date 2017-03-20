@@ -19,6 +19,13 @@
       </li>
       {% endfor %}
     </ul>
+    <strong>Total: </strong>
+    {% for yr, num in totals.items %}
+      {% if yr == year %}
+        {{ num }}
+      {% endif %}
+    {% endfor %}
+    <br />
   {% endfor %}
 {% else %}
     <p>No citations.</p>

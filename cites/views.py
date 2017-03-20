@@ -146,6 +146,7 @@ def cit_list_year(request):
     citations = Citation.objects.all()
 
     cit_map = { }
+    totals = { }
     for cit in citations:
         year = cit.citing.cited_date.year
         if not year in cit_map:
@@ -156,8 +157,14 @@ def cit_list_year(request):
 
         cit_map[year][cit.publication].append(cit.citing)
 
+        if not year in totals:
+            totals[year] = 0
+
+        totals[year] += 1
+
     context = {
         'cit_map': cit_map,
+        'totals': totals,
     }
 
     return render(request, 'cites/cit_list_year.html', context)
